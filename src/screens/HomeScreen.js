@@ -1,38 +1,72 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker, Polyline} from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
+import GetLocation from 'react-native-get-location';
 
 // create a component
 const Home = () => {
-  const origin = {latitude: 27.6727352, longitude: 85.3231056}; //patan durbar square
-  const destination = {latitude: 27.6734764, longitude: 85.321904}; // chip kinne thaum
+  const origin = {latitude: 27.672902544858847, longitude: 85.32498076558115}; //patan durbar square
+  const destination = {
+    latitude: 27.675440333532524,
+    longitude: 85.32114688307048,
+  }; // chip kinne thaum
+
+  const [marker, setMarker] = useState([]);
+  const [location, setLocation] = useState(null);
 
   const coordinateArray = [
-    {latitude: 27.6727352, longitude: 85.3231056},
-    {latitude: 27.673452, longitude: 85.325265},
-    {latitude: 27.673928, longitude: 85.325143},
-    {latitude: 27.674262, longitude: 85.324213},
-    {latitude: 27.6734764, longitude: 85.321904},
+    {latitude: 27.672902544858847, longitude: 85.32498076558115},
+    {latitude: 27.673925149842983, longitude: 85.32524932175873},
+    {latitude: 27.67425562379755, longitude: 85.32424818724395},
+    {latitude: 27.67475296591504, longitude: 85.32274916768074},
+    {latitude: 27.675440333532524, longitude: 85.32114688307048},
   ];
-  const GOOGLE_MAPS_APIKEY = 'AIzaSyCc9TlKc8dAyo6lP2Ckew2V19QOyOzxt4g';
+
+  useEffect(() => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log(location);
+        setLocation(location);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  }, []);
   return (
     <View>
       <MapView
         style={styles.map}
         Provider={PROVIDER_GOOGLE}
         showsUserLocation
+        onPress={e => {
+          setMarker([...marker, e.nativeEvent.coordinate]);
+          console.log(marker);
+        }}
         initialRegion={{
           latitude: origin.latitude, //27.700769,
           longitude: origin.longitude,
           latitudeDelta: 0.003,
           longitudeDelta: 0.003,
         }}>
-        <Marker
-          coordinate={origin}
-          title={'some random spot'}
-        />
+        {marker.map((marker, i) => (
+          <MapView.Marker key={i} coordinate={marker} />
+        ))}
         <Marker coordinate={origin} title={'some random spot'} />
+        <Marker coordinate={origin} title={'some random spot'} />
+        {location ? (
+          <Marker
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            title={'your current location'}
+            pinColor={'#003366'}
+          />
+        ) : null}
         <Marker coordinate={destination} title={'some random spot'} />
         <Polyline
           coordinates={coordinateArray}
