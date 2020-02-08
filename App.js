@@ -1,31 +1,16 @@
-//import liraries
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import HomeScreen from './src/screens/HomeScreen'
+import LoginScreen from  './src/screens/LoginScreen'
+import SignInScreen from  './src/screens/SignInScreen'
 
-// create a component
-const Home = () => {
-  return (
-    <View>
-      <MapView
-    style={ styles.map}
-    Provider={PROVIDER_GOOGLE}
-    showsUserLocation
-    initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    }}
-  />
-    </View>
-  );
-};
+const navigator = createStackNavigator({
+  Login : LoginScreen,
+  Home: HomeScreen,
+  Signin : SignInScreen
+}, { headerMode: 'none' });
 
-const styles = StyleSheet.create({
-  map:{
-    height:"100%"
-  }
-});
+export default createAppContainer(navigator);
 
-export default Home;
+
+//"react-native-firebase": "^5.6.0",
