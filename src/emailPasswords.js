@@ -1,5 +1,5 @@
-export let _email = ["VirtualGuide@gmail.com"]
-export let _password =["password"]
+export let _email = ["VirtualGuide@gmail.com","a"]
+export let _password =["password","a"]
 
 
 export default saveEmailPassword = (email,password)=>{

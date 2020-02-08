@@ -21,7 +21,7 @@ const SignInScreen = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Virtual Guide App</Text>
+      <Text style={styles.logo}>Virtual Guide</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
