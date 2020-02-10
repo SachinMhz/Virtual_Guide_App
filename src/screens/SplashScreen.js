@@ -7,7 +7,7 @@ const SplashScreen = ({navigation}) => {
     return (
         <View >
              <Text>SplashScreen</Text>
-             <Button title="Go to Login" onPress={()=>navigation.navigate('Login')} />
+             <Button title="Go to Login" onPress={()=>navigation.navigate('Home')} />
              <Text>email: a  password: a</Text>
         </View>
     );
