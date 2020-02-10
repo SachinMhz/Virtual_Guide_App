@@ -19,7 +19,9 @@ import MapView, {
 import haversine from "haversine";
 import Geolocation from '@react-native-community/geolocation';
 import SoundPlayer from 'react-native-sound-player'//npm library
- 
+
+import data from '../data/activityData'; //maile affai banayeko temp-database type where activity coordinates are saved
+import {NavigationEvents} from 'react-navigation';
 
 
 
@@ -29,8 +31,8 @@ import SoundPlayer from 'react-native-sound-player'//npm library
 //zoom level in map
 const LATITUDE_DELTA = 0.001;
 const LONGITUDE_DELTA = 0.001;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
+const LATITUDE = 27.67475296591504;
+const LONGITUDE = 85.32274916768074;
 //vibration pattern
 const PATTERN = [1000, 2000, 3000];
 // key so that the sound doesnot keep on replayinh
@@ -52,6 +54,7 @@ class AnimatedMarkers extends React.Component {
         latitudeDelta: 0,
         longitudeDelta: 0
       }),
+      changeState:false,
       //huge array of markers
       markers: [{
         title: 'Tourist information Center',
@@ -399,7 +402,7 @@ class AnimatedMarkers extends React.Component {
   
   componentDidMount() {
     const { coordinate } = this.state;
-
+    
     this.watchID = Geolocation.watchPosition(
       position => {
         const { routeCoordinates, distanceTravelled } = this.state;
@@ -497,7 +500,7 @@ class AnimatedMarkers extends React.Component {
           coordinate.timing(newCoordinate).start();
         }
         
-          /distace walla
+          //distace walla
         this.setState({
           latitude,
           longitude,
@@ -536,6 +539,7 @@ class AnimatedMarkers extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents onWillFocus={()=>{this.setState({changeState:!this.changeState})}} />
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -563,7 +567,14 @@ class AnimatedMarkers extends React.Component {
             coordinate={this.state.coordinate}
           />
 
-        
+        {data.map(( // on selecting activity, show correspondning marker on the map
+          item,
+          i, 
+        ) =>
+          item.isSelected ? (
+            <MapView.Marker key={item.id} coordinate={item.coordinates} title={item.title}/>
+          ) : null,
+        )}
           <Polyline
             coordinates={[
               { latitude: 27.676011, longitude: 85.318092},

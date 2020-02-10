@@ -13,9 +13,9 @@ import TransportationScreen from './src/screens/TransportationScreen';
 import PriceListScreen from './src/screens/PriceListScreen';
 
 const switchNavigator = createSwitchNavigator({
+  Splash: SplashScreen,
   loginFlow: createStackNavigator(
     {
-      Splash: SplashScreen,
       Login: LoginScreen,
       Signin: SignInScreen,
     },
@@ -24,7 +24,7 @@ const switchNavigator = createSwitchNavigator({
   mainFlow: createBottomTabNavigator({
     Home: HomeScreen,
     Activity: ActivityScreen,
-    Share: ShareScreen,
+    //Share: ShareScreen,
     Emmergency: EmmergencyScreen,
     Transportation: TransportationScreen,
     PriceList: PriceListScreen,

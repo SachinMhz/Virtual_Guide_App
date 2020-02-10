@@ -6,7 +6,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const ShareScreen = () => {
     return (
         <View >
-             <Text>ShareScreen</Text>
+           <Text>Share</Text>  
         </View>
     );
 };

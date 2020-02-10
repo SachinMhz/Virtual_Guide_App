@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,38 +6,20 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  CheckBox,
 } from 'react-native';
+import data from '../data/activityData';
 
 const CardView = ({navigation}) => {
-  const data = [
-    {
-      id: 1,
-      title: 'Lorem ipsum dolor',
-      image: 'https://lorempixel.com/400/200/nature/6/',
-    },
-    {
-      id: 2,
-      title: 'Sit amet, consectetuer',
-      image: 'https://lorempixel.com/400/200/nature/5/',
-    },
-    {
-      id: 3,
-      title: 'Dipiscing elit. Aenean ',
-      image: 'https://lorempixel.com/400/200/nature/4/',
-    },
-    {
-      id: 4,
-      title: 'Commodo ligula eget dolor.',
-      image: 'https://lorempixel.com/400/200/nature/6/',
-    },
-    {
-      id: 9,
-      title: 'Felis, ultricies nec, pellentesque',
-      image: 'https://lorempixel.com/400/200/nature/4/',
-    },
-  ];
+  const [state, setState] = useState(false);
+
+  const onActivityPressed = index => {
+    data[index].isSelected = !data[index].isSelected;
+    setState(!state); //just to re-render the interface
+  };
   return (
     <View style={styles.container}>
+      <Text style={{fontSize:25, marginBottom:10}}>Select the activity you would like to do:</Text>
       <FlatList
         style={styles.list}
         data={data}
@@ -50,12 +32,26 @@ const CardView = ({navigation}) => {
         renderItem={post => {
           const item = post.item;
           return (
-            <TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                item.isSelected ? {borderWidth: 5, borderColor: 'green'} : null,
+              ]}
+              onPress={() => onActivityPressed(item.id)}>
               <View style={styles.card}>
-                <Image style={styles.cardImage} source={{uri: item.image}} />
+                <Image style={styles.cardImage} source={item.imgSrc} />
                 <View style={styles.cardContent}>
-                  <View>
-                    <Text style={styles.title}>{item.title}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                    <View style={{flex: 9}}>
+                      <Text style={styles.title}>{item.title}</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <CheckBox
+                        onValueChange={() => {
+                          onActivityPressed(item.id);
+                        }}
+                        value={item.isSelected}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
@@ -71,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
+    backgroundColor:'#003f5c',
   },
   list: {
     backgroundColor: '#E6E6E6',
@@ -114,7 +111,13 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   title: {
-    fontSize: 22,
+    fontSize: 30 ,
+    color: '#ffffff',
+    marginTop: 10,
+    fontWeight: 'bold',
+  },
+  desc: {
+    fontSize: 18,
     color: '#ffffff',
     marginTop: 10,
     fontWeight: 'bold',
