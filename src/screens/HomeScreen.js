@@ -18,18 +18,22 @@ import MapView, {
 } from "react-native-maps";
 import haversine from "haversine";
 import Geolocation from '@react-native-community/geolocation';
-import SoundPlayer from 'react-native-sound-player'
+import SoundPlayer from 'react-native-sound-player'//npm library
  
 
 
 
 // const LATITUDE = 29.95539;
 // const LONGITUDE = 78.07513;
+
+//zoom level in map
 const LATITUDE_DELTA = 0.001;
 const LONGITUDE_DELTA = 0.001;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
+//vibration pattern
 const PATTERN = [1000, 2000, 3000];
+// key so that the sound doesnot keep on replayinh
 let key =[0,0,0,0,0,0,0,0];
 
 class AnimatedMarkers extends React.Component {
@@ -48,6 +52,7 @@ class AnimatedMarkers extends React.Component {
         latitudeDelta: 0,
         longitudeDelta: 0
       }),
+      //huge array of markers
       markers: [{
         title: 'Tourist information Center',
         coordinates: {
@@ -411,6 +416,7 @@ class AnimatedMarkers extends React.Component {
               newCoordinate,
               500
             );
+            //update cordinates
             let x= newCoordinate.latitude, y=newCoordinate.longitude;
             let h=[27.676011,27.672629,27.673404,27.673573], k=[85.318092,85.324894,85.325128,85.325096];
             let r = 0.0001**2
@@ -422,6 +428,7 @@ class AnimatedMarkers extends React.Component {
                      break;
                  }
             } 
+            //condition for playing different sounds
             switch(t) {
                 case 0:
                     if (key[0] < 1 ) {
@@ -430,6 +437,7 @@ class AnimatedMarkers extends React.Component {
                             // play the file tone.mp3
                             SoundPlayer.playSoundFile('busstandd', 'mp3')
                             key[0] = 1
+            
                             
                         } catch (e) {
                             console.log(`cannot play the sound file`, e)
@@ -444,6 +452,7 @@ class AnimatedMarkers extends React.Component {
                             // play the file tone.mp3
                             SoundPlayer.playSoundFile('tickectcounter', 'mp3')
                             key[1] = 1
+
                         } catch (e) {
                             console.log(`cannot play the sound file`, e)
                         }
@@ -457,6 +466,7 @@ class AnimatedMarkers extends React.Component {
                             // play the file tone.mp3
                             SoundPlayer.playSoundFile('museum', 'mp3')
                             key[2] = 1
+                           
                         } catch (e) {
                             console.log(`cannot play the sound file`, e)
                         }
@@ -487,7 +497,7 @@ class AnimatedMarkers extends React.Component {
           coordinate.timing(newCoordinate).start();
         }
         
-
+          /distace walla
         this.setState({
           latitude,
           longitude,
@@ -502,7 +512,7 @@ class AnimatedMarkers extends React.Component {
         enableHighAccuracy: true,
         timeout: 20000,
         maximumAge: 1000,
-        distanceFilter: 1
+        distanceFilter: 1 //yo distance
       }
     );
   }
@@ -536,12 +546,13 @@ class AnimatedMarkers extends React.Component {
           region={this.getMapRegion()}
           
             >
+          
             {this.state.markers.map((marker,index) => (
                 <MapView.Marker 
                     key={index}
                     coordinate={marker.coordinates}
                     title={marker.title}
-                    image ={marker.image}
+                    image ={marker.image} //rendering markers
                 />
               ))}
           <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
