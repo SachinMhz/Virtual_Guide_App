@@ -5,11 +5,10 @@ import { View, Text, StyleSheet, Button,Image } from 'react-native';
 // create a component
 const SplashScreen = ({navigation}) => {
     useEffect(()=>{
-        /*
         setTimeout(
-            () => { navigation.navigate('Home') }, //showing this screen for 3000 ms period
+            () => { navigation.navigate('Login') }, //showing this screen for 3000 ms period
             3000
-          )*/
+          )
     },[])
     return (
         <View style={styles.container}>
