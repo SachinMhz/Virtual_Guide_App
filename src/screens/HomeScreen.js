@@ -7,6 +7,7 @@ import {
   Platform,
   PermissionsAndroid,
   Button,
+  Vibration
 
 } from "react-native";
 import MapView, {
@@ -24,11 +25,12 @@ import SoundPlayer from 'react-native-sound-player'
 
 // const LATITUDE = 29.95539;
 // const LONGITUDE = 78.07513;
-const LATITUDE_DELTA = 0.003;
-const LONGITUDE_DELTA = 0.003;
+const LATITUDE_DELTA = 0.001;
+const LONGITUDE_DELTA = 0.001;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
-let key =[0,0,0];
+const PATTERN = [1000, 2000, 3000];
+let key =[0,0,0,0,0,0,0,0];
 
 class AnimatedMarkers extends React.Component {
   constructor(props) {
@@ -87,7 +89,34 @@ class AnimatedMarkers extends React.Component {
         },
         image : require('../markers/dustbin.png'),  
       },
-      
+      {
+        coordinates: {
+            latitude: 27.676011,
+            longitude: 85.318092
+        },
+        image : require('../markers/red.png'),  
+      },
+      {
+        coordinates: {
+          latitude: 27.672629,
+          longitude: 85.324894
+        },
+        image : require('../markers/red.png'),  
+      },
+      {
+        coordinates: {
+          latitude: 27.673404,
+          longitude: 85.325128
+        },
+        image : require('../markers/red.png'),  
+      },
+      {
+        coordinates: {
+          latitude: 27.673573,
+          longitude: 85.325096
+        },
+        image : require('../markers/red.png'),  
+      },
       
       {
         title: 'Dustbin',
@@ -383,8 +412,8 @@ class AnimatedMarkers extends React.Component {
               500
             );
             let x= newCoordinate.latitude, y=newCoordinate.longitude;
-            let h=[27.67290,27.673469], k=[85.32498,85.325132];
-            let r = 0.00010**2
+            let h=[27.676011,27.672629,27.673404,27.673573], k=[85.318092,85.324894,85.325128,85.325096];
+            let r = 0.0001**2
             var t,i;
             for(i=0;i<h.length;i++){
                  t = (x-h[i])**2 + (y-k[i])**2;
@@ -396,29 +425,58 @@ class AnimatedMarkers extends React.Component {
             switch(t) {
                 case 0:
                     if (key[0] < 1 ) {
+                        Vibration.vibrate(PATTERN);
                         try {
                             // play the file tone.mp3
-                            SoundPlayer.playSoundFile('pm', 'm4a')
+                            SoundPlayer.playSoundFile('busstandd', 'mp3')
                             key[0] = 1
-                            console.log(`we`)
+                            
                         } catch (e) {
                             console.log(`cannot play the sound file`, e)
                         }
                     }
-                    console.log(`we1`)
+                   
                     break;
                 case 1:
                     if (key[1] < 1) {
+                        Vibration.vibrate(PATTERN);
                         try {
                             // play the file tone.mp3
-                            SoundPlayer.playSoundFile('test', 'm4a')
+                            SoundPlayer.playSoundFile('tickectcounter', 'mp3')
                             key[1] = 1
                         } catch (e) {
                             console.log(`cannot play the sound file`, e)
                         }
                     }
-                    console.log(`we3`)
+                    
                     break;
+                case 2:
+                    if (key[2] < 1) {
+                        Vibration.vibrate(PATTERN);
+                        try {
+                            // play the file tone.mp3
+                            SoundPlayer.playSoundFile('museum', 'mp3')
+                            key[2] = 1
+                        } catch (e) {
+                            console.log(`cannot play the sound file`, e)
+                        }
+                    }
+                   
+                    break;
+
+                    case 3:
+                        if (key[3] < 1) {
+                            Vibration.vibrate(PATTERN);
+                            try {
+                                // play the file tone.mp3
+                                SoundPlayer.playSoundFile('khrishnamandir', 'mp3')
+                                key[3] = 1
+                            } catch (e) {
+                                console.log(`cannot play the sound file`, e)
+                            }
+                        }
+                        
+                        break;
 
 
             }         
@@ -444,7 +502,7 @@ class AnimatedMarkers extends React.Component {
         enableHighAccuracy: true,
         timeout: 20000,
         maximumAge: 1000,
-        distanceFilter: 10
+        distanceFilter: 1
       }
     );
   }
@@ -564,8 +622,25 @@ class AnimatedMarkers extends React.Component {
               {parseFloat(this.state.distanceTravelled).toFixed(2)} km
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <Text style={styles.bottomBarContent} onPress={()=>{SoundPlayer.stop();}}>
+              Stop 
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <Text style={styles.bottomBarContent} onPress={()=>{SoundPlayer.pause();}}>
+             Pause
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <Text style={styles.bottomBarContent} onPress={()=>{SoundPlayer.resume();}}>
+             Resume
+            </Text>
+          </TouchableOpacity>
+          
+          
         </View> 
-         <Button title="Stop Sound" onPress={()=>{SoundPlayer.stop();}} />             
+            
       </View>
     );
   }
@@ -582,7 +657,7 @@ const styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: "rgba(255,255,255,0.7)",
+    backgroundColor: "#fff",
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20
