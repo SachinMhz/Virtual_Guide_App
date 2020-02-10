@@ -497,7 +497,7 @@ class AnimatedMarkers extends React.Component {
           coordinate.timing(newCoordinate).start();
         }
         
-          /distace walla
+          //distace walla
         this.setState({
           latitude,
           longitude,
