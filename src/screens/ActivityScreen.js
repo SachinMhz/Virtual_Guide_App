@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -19,7 +20,12 @@ const CardView = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={{fontSize:25, marginBottom:10}}>Select the activity you would like to do:</Text>
+     <StatusBar  
+                    backgroundColor = "#fff"  
+                    barStyle = "dark-content"   
+                    hidden = {false}    
+                     
+                />  
       <FlatList
         style={styles.list}
         data={data}
@@ -29,29 +35,26 @@ const CardView = ({navigation}) => {
         ItemSeparatorComponent={() => {
           return <View style={styles.separator} />;
         }}
-        renderItem={post => {
-          const item = post.item;
+        renderItem={({item}) => {
           return (
             <TouchableOpacity
               style={[
-                item.isSelected ? {borderWidth: 5, borderColor: 'green'} : null,
+                item.isSelected ? styles.onSelected : null,
               ]}
               onPress={() => onActivityPressed(item.id)}>
-              <View style={styles.card}>
-                <Image style={styles.cardImage} source={item.imgSrc} />
-                <View style={styles.cardContent}>
-                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                    <View style={{flex: 9}}>
-                      <Text style={styles.title}>{item.title}</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <CheckBox
-                        onValueChange={() => {
-                          onActivityPressed(item.id);
-                        }}
-                        value={item.isSelected}
-                      />
-                    </View>
+              <View style={styles.mainContainer}>
+                <View style={styles.imageContainer}>
+                  <Image style={styles.image} source={item.imgSrc} />
+                </View>
+                <View style={styles.descriptionContainer}>
+                  <View style={{flex: 9}}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.subTitle}>
+                    {item.desc}
+                    </Text>
+                  </View>
+                  <View style={styles.checkBoxContiner}>
+                    <CheckBox value={item.isSelected} />
                   </View>
                 </View>
               </View>
@@ -64,72 +67,50 @@ const CardView = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 20,
+  container: {flex: 1, marginHorizontal: 5, marginTop: 20},
+  onSelected:{
+    borderWidth:4,
+    borderTopEndRadius:55,
+    borderTopLeftRadius:55,
+    borderBottomLeftRadius:55,borderColor:'green'
   },
-  list: {
-    backgroundColor: '#E6E6E6',
-  },
-  separator: {
-    marginTop: 4,
-  },
-  /******** card **************/
-  card: {
-    margin: 0,
-    borderRadius: 2,
-    borderWidth: 1,
-    borderColor: '#DCDCDC',
-    backgroundColor: '#DCDCDC',
-  },
-  cardHeader: {
-    paddingVertical: 17,
-    paddingHorizontal: 16,
-    borderTopLeftRadius: 1,
-    borderTopRightRadius: 1,
+  separator: {marginVertical: 10},
+  mainContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: '#ffffff',
+    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.31,
+    shadowRadius: 5.32,
+
+    elevation: 12,
   },
-  cardContent: {
-    paddingVertical: 12.5,
-    paddingHorizontal: 16,
-    //overlay efect
-    flex: 1,
-    height: 200,
-    width: null,
-    position: 'absolute',
-    zIndex: 100,
-    left: 0,
-    right: 0,
-    backgroundColor: 'transparent',
+  imageContainer: {flex: 4},
+  descriptionContainer: {
+    flex: 6,
+    flexDirection: 'row',
+    paddingLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    borderBottomLeftRadius: 50,
+    borderTopEndRadius: 50,shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+      height: 8,
+        },
+      shadowOpacity: 0.41,
+      shadowRadius: 10.32,
+
+      elevation: 16,
   },
-  cardImage: {
-    flex: 1,
-    height: 150,
-    width: null,
-  },
-  /******** card components **************/
-  title: {
-    fontSize: 30 ,
-    color: '#ffffff',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  desc: {
-    fontSize: 18,
-    color: '#ffffff',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  time: {
-    fontSize: 13,
-    color: '#ffffff',
-    marginTop: 5,
-  },
-  icon: {
-    width: 25,
-    height: 25,
-  },
+  checkBoxContiner: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  image: {height: 150, width: 150, borderRadius: 75, marginLeft: 5},
+  title: {fontSize: 20, fontWeight: 'bold', color: '#000'},
+  subTitle: {fontSize: 15,  color: '#000'},
 });
 
 export default CardView;

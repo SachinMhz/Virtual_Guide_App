@@ -4,9 +4,7 @@ import {
   Text,
   View,
   TextInput,
-  Image,
   TouchableOpacity,
-  StatusBar
 } from 'react-native';
 import {_email,_password} from '../emailPasswords'
 
@@ -25,25 +23,14 @@ const LoginScreen = ({navigation}) => {
   }
   return (
     <View style={styles.container}>
-    <StatusBar  
-                    backgroundColor = "#fff"  
-                    barStyle = "dark-content"   
-                    hidden = {false}    
-                     
-                />  
-    <View >
-    <Image style={styles.imagecontainer} source={require('../images/logo.jpg')} />
-    </View>
-      <Text style={styles.logo}>Welcome</Text>
+      <Text style={styles.logo}>Virtual Guide</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Enter Email"
+          placeholder="Email..."
           value={email}
           placeholderTextColor="#003f5c"
           onChangeText={setEmail}
-          autoCapitalize='none'
-          autoCompleteType='off'
         />
       </View>
       <View style={styles.inputView}>
@@ -51,12 +38,9 @@ const LoginScreen = ({navigation}) => {
           secureTextEntry
           style={styles.inputText}
           value={password}
-          placeholder="Enter password"
+          placeholder="Password..."
           placeholderTextColor="#003f5c"
           onChangeText={setPassword}
-          autoCapitalize='none'
-          autoCompleteType='off'
-          
         />
       </View>
       <TouchableOpacity>
@@ -66,7 +50,7 @@ const LoginScreen = ({navigation}) => {
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>navigation.navigate('Signin')}>
-        <Text style={styles.forgote}>Signup</Text>
+        <Text style={styles.loginText}>Signup</Text>
       </TouchableOpacity>
     </View>
   );
@@ -75,51 +59,32 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#003f5c',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -60,
   },
   logo: {
     fontWeight: 'bold',
-    width: '100%' ,
-    fontSize: 40,
+    fontSize: 50,
     color: '#fb5b5a',
     marginBottom: 40,
-    paddingLeft: 150,
-    marginTop:40,
   },
   inputView: {
     width: '80%',
-    backgroundColor: '#fcd8d2',
+    backgroundColor: '#465881',
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
     padding: 20,
-    shadowColor: "#fcd8d2",
-        shadowOffset: {
-	        width: 0,
-	      height: 8,
-            },
-          shadowOpacity: 0.01,
-          shadowRadius: 10.32,
-
-          elevation: 16,
   },
   inputText: {
     height: 50,
-    color: 'black',
+    color: 'white',
   },
   forgot: {
-    color: 'black',
-    fontSize: 13,
-    marginTop: 40,
-    paddingLeft:10,
-  },
-  forgote: {
-    color: 'black',
-    fontSize: 13,
+    color: 'white',
+    fontSize: 11,
   },
   loginBtn: {
     width: '80%',
@@ -128,27 +93,11 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 40,
     marginBottom: 10,
-    shadowColor: "#fcd8d2",
-        shadowOffset: {
-	        width: 0,
-	      height: 8,
-            },
-          shadowOpacity: 0.01,
-          shadowRadius: 10.32,
-
-          elevation: 16,
-    
   },
   loginText: {
     color: 'white',
-  },
-  imagecontainer: {
-    height:200,
-    width:200,
-    marginLeft:25,  
-
   },
 });
 
